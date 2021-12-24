@@ -16,51 +16,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-public class Tests {
+import static org.openqa.selenium.remote.http.DumpHttpExchangeFilter.LOG;
+
+public class Tests extends Elements{
     WebDriver driver;
-
-    @FindBy(xpath = "//span[contains(text(), 'Спасибо, ваша заявка принята!')]")
-    private WebElement windowFree;
-
-    @FindBy(xpath = "//*[@id='wpcf7-f47-o1']/form/p[1]/span[1]/input")
-    private WebElement name;
-
-    @FindBy(xpath = "//*[@id='wpcf7-f47-o1']/form/p[1]/span[2]/input")
-    private WebElement telephone;
-
-    @FindBy(xpath = "//*[@id='wpcf7-f47-o1']/form/p[2]/label/span[2]")
-    private WebElement personalDate;
-
-    @FindBy(xpath = "//*[@id='wpcf7-f47-o1']/form/p[2]/input")
-    private WebElement button;
-
-
-    //form 2
-
-    @FindBy(xpath = "//a[contains(@class, 'btn-calc popup')]")
-    private WebElement userMenu;
-
-    @FindBy(xpath = "//*[contains(@class, 'wpcf7-form-control-wrap name-form')]/input")
-    private WebElement userForm2;
-
-    @FindBy(xpath = "//*[contains(@class, 'wpcf7-form-control-wrap tel-form')]/input")
-    private WebElement telephone2;
-
-    @FindBy(xpath = "//*[contains(@class, 'check-label')]")
-    private WebElement personalDate2;
-
-    @FindBy(xpath = "//*[contains(@class, 'wpcf7-form-control wpcf7-submit form-btn send-form')]")
-    private WebElement button2;
-
-    //   public  Tests(WebDriver driver) {
-//        PageFactory.initElements(driver, this);
-//    }
 
 
     @Before
     public void setup() {
-
-
+        LOG.info("Start @BeforeClass()...");
         //определение пути до драйвера и его настройка
         System.setProperty("webdriver.chrome.driver", ReadVariable.getProperty("chromedriver"));
         //создание экземпляра драйвера
@@ -70,61 +34,68 @@ public class Tests {
         //задержка на выполнение теста = 10 сек.
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         //получение ссылки на страницу входа из файла настроек
+        driver.get(ReadVariable.getProperty("windowsPage"));
+        FindElements(driver);
+
+        LOG.info("Finish @BeforeClass()...");
 
     }
 
     @After
     public void close() {
+
         driver.close();
+        LOG.info("closeBrowser()...");
+        LOG.info("Finish test " + this.getClass().getSimpleName());
     }
 
+    /*
+     * Проверка, что окно заказа доступно на главной странице
+     * окно статичное
+     * заявка отправляется
+     */
     @Test
-    public void form1() throws InterruptedException {
-        driver.get(ReadVariable.getProperty("windowsPage"));
-        PageFactory.initElements(driver, this);
+    public void formWindow1Test() throws InterruptedException {
 
 
+        AbstractClass.inputData(name, ReadVariable.getProperty("name"));
+        AbstractClass.inputData(telephone, ReadVariable.getProperty("telephone"));
+        AbstractClass.clickBtn(personalDate, driver);
+        AbstractClass.clickBtn(button, driver);
 
-        inputName(name, ReadVariable.getProperty("name"));
-        inputName(telephone, ReadVariable.getProperty("telephone"));
-        clickLoginBtn(personalDate);
-        clickLoginBtn(button);
-        WebElement spasibo = driver.findElement(By.xpath("//*[@id='pum_popup_title_760']"));
         Thread.sleep(1000L);
-
-        Assert.assertEquals("Спасибо, ваша заявка принята!", spasibo.getText());
+        Assert.assertEquals("Спасибо, ваша заявка принята!", windowFree.getText());
     }
 
+    /*
+     * Проверка, что окно заказа доступно и заявка отправляется
+     */
     @Test
-    public void form2() throws InterruptedException {
-        driver.get(ReadVariable.getProperty("windowsPage"));
-        PageFactory.initElements(driver, this);
-
-        clickLoginBtn(userMenu);
+    public void formWindow2Test() throws InterruptedException {
+        AbstractClass.clickBtn(userMenu, driver);
         Thread.sleep(500L);
 
-        inputName(userForm2, ReadVariable.getProperty("name2"));
-        inputName(telephone2, ReadVariable.getProperty("telephone"));
-        clickLoginBtn(personalDate2);
-        clickLoginBtn(button2);
-        WebElement spasibo = driver.findElement(By.xpath("//*[@id='pum_popup_title_760']"));
+        AbstractClass.inputData(userForm2, ReadVariable.getProperty("name2"));
+        AbstractClass.inputData(telephone2, ReadVariable.getProperty("telephone"));
+        AbstractClass.clickBtn(personalDate2, driver);
+        AbstractClass.clickBtn(button2, driver);
         Thread.sleep(500L);
-
-        Assert.assertEquals("Спасибо, ваша заявка принята!", spasibo.getText());
+        Assert.assertEquals("Спасибо, ваша заявка принята!", windowFree.getText());
     }
 
+    /*
+    * Проверка, что окно заказа доступно
+    */
+    @Test
+    public void formHeaderTest() throws InterruptedException {
+        AbstractClass.clickBtn(buttonHeader, driver);
+        Thread.sleep(500L);
+        Assert.assertNotNull(userForm2);
+        Assert.assertNotNull(telephone2);
+        Assert.assertNotNull(personalDate2);
+        Assert.assertNotNull(button2);
 
-    public void inputName(WebElement el, String login) {
-        el.sendKeys(login);
     }
 
-    public void clickLoginBtn(WebElement el) {
-        try {
-            el.click();
-        } catch (Exception e) {
-            new Actions(driver).sendKeys(Keys.PAGE_DOWN).perform();
-            el.click();
-        }
-    }
 
 }
