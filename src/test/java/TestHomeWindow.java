@@ -3,6 +3,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
@@ -51,14 +52,15 @@ public class TestHomeWindow extends BaseClass {
      * Вызов замерщика в середине странице
      */
     @Test
-    public void testRequestOnWindowHome() {
+    public void testRequestOnWindowHome() throws InterruptedException {
 
         click(getRequestCallButton());
         getFieldNameOnFormRequest().sendKeys(Veribles.getNameTwo());
         getFieldTelephoneOnFormRequest().sendKeys(Veribles.getTelephone());
         getCheckMarkPersonalDateOnFormRequest().click();
-        click(getConfirmationButtonOnFormRequest());
-        //   getConfirmationButtonOnFormRequest().click();
+        getConfirmationButtonOnFormRequest().click();
+
+
 
         waitElements(getConfirmationSignature()); // ожидаем элемент
         Assert.assertEquals("Спасибо, ваша заявка принята!", getConfirmationSignature().getText());

@@ -1,0 +1,20 @@
+*.target
+
+# Log file
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.gz
+*.rar
+
+
+# User-specific stuff:
+.idea
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
