@@ -1,31 +1,27 @@
 import Pages.PageElementsHome;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.openqa.selenium.By;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import static Pages.PageElementsHome.*;
 
 public class TestHomeWindow extends BaseClass {
-    WebDriver driverHome = getWebDriver();
+    static WebDriver driverHome = getWebDriver();
 
-    PageElementsHome pageHome = PageFactory.initElements(driverHome, PageElementsHome.class);
+    static PageElementsHome pageHome = PageFactory.initElements(driverHome, PageElementsHome.class);
 
 
     @Before
     public void setup() {
-
+        //todo необходимо сделать тесты независимые друг от друга
         //получение ссылки на страницу входа из файла настроек
         driverHome.get(Veribles.getWindowsPageName());
         FindElements(pageHome);
 
     }
 
-    @After
-    public void close() {
+    @AfterClass
+    public static void close() {
         driverHome.close();
     }
 
@@ -45,6 +41,7 @@ public class TestHomeWindow extends BaseClass {
 
         waitElements(getConfirmationSignature());
         Assert.assertEquals("Спасибо, ваша заявка принята!", getConfirmationSignature().getText());
+        getButtonClose().click();
     }
 
     /*
@@ -60,10 +57,9 @@ public class TestHomeWindow extends BaseClass {
         getCheckMarkPersonalDateOnFormRequest().click();
         getConfirmationButtonOnFormRequest().click();
 
-
-
         waitElements(getConfirmationSignature()); // ожидаем элемент
         Assert.assertEquals("Спасибо, ваша заявка принята!", getConfirmationSignature().getText());
+        getButtonClose().click();
     }
 
     /*
@@ -73,12 +69,13 @@ public class TestHomeWindow extends BaseClass {
      */
     @Test
     public void testRequestOnHeadWindowHome() {
-        clickConfirmationButtonHeader();
+        getRequestButtonHeader().click();
         waitElements(getFieldNameOnFormRequest());
         Assert.assertNotNull(getFieldNameOnFormRequest());
         Assert.assertNotNull(getFieldTelephoneOnFormRequest());
         Assert.assertNotNull(getCheckMarkPersonalDateOnFormRequest());
         Assert.assertNotNull(getConfirmationButtonOnFormRequest());
+        getButtonCloseModalWindowRequest().click();
 
     }
 

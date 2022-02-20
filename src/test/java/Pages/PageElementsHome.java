@@ -5,8 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class PageElementsHome {
@@ -24,32 +22,31 @@ public class PageElementsHome {
     private static WebElement confirmationSignature;
 
     //Общий класс для статичной формы сверху на главной странице
-    static final String classNameForm = "wpcf7-f47-o1";
+    static final String idFormRequest = "wpcf7-f47-o1";
     @FindBys({
-            @FindBy(id = classNameForm),
-            @FindBy(name = "name-form")
+            @FindBy(id = idFormRequest),
+            @FindBy(xpath = "//*[contains(@name, 'name-form')]")
     })
     private static WebElement fieldNameHead;
 
     @FindBys({
-            @FindBy(id = classNameForm),
+            @FindBy(id = idFormRequest),
             @FindBy(name = "tel-form")
     })
     private static WebElement fieldTelephoneHead;
 
     @FindBys({
-            @FindBy(id = classNameForm),
+            @FindBy(id = idFormRequest),
             @FindBy(className = "check-label")
     })
     private static WebElement checkPersonalDateHead;
 
 
     @FindBys({
-            @FindBy(id = classNameForm),
+            @FindBy(id = idFormRequest),
             @FindBy(xpath = "//*[contains(@type, 'submit')]")
     })
     private static WebElement confirmationButtonHead;
-
 
 
     //forms
@@ -59,7 +56,7 @@ public class PageElementsHome {
     private static WebElement requestCallButton;
 
     @FindBy(xpath = "//a[contains(@class, 'head-btn popup')]")
-    private static WebElement confirmationButtonHeader;
+    private static WebElement requestButtonHeader;
 
 
     @FindBy(xpath = "//*[contains(@class, 'wpcf7-form-control-wrap name-form')]/input")
@@ -67,6 +64,12 @@ public class PageElementsHome {
     //--Ввод телефона
     @FindBy(xpath = "//*[contains(@class, 'wpcf7-form-control-wrap tel-form')]/input")
     private static WebElement fieldTelephoneOnFormRequest;
+
+    @FindBys({
+            @FindBy(id = "popmake-760"),
+            @FindBy(name = "pum-close popmake-close")
+    })
+    private static WebElement buttonClose;
 
     //-- соглашение на обработку персональных данных
     @FindBy(xpath = "//*[contains(@class, 'check-label')]")
@@ -76,8 +79,16 @@ public class PageElementsHome {
     @FindBy(xpath = "//*[@id='wpcf7-f47-o3']//*[@type='submit']")
     private static WebElement confirmationButtonOnFormRequest;
 
+    @FindBy(className = "mfp-close")
+    private static WebElement buttonCloseModalWindowRequest;
+
+
 
     //***********************
+    public static WebElement getButtonCloseModalWindowRequest() {
+        return buttonCloseModalWindowRequest;
+    }
+
     public static WebElement getFieldNameHead() {
         return fieldNameHead;
     }
@@ -88,6 +99,10 @@ public class PageElementsHome {
 
     public static WebElement getCheckPersonalDateHead() {
         return checkPersonalDateHead;
+    }
+
+    public static WebElement getButtonClose() {
+        return buttonClose;
     }
 
     public static WebElement getConfirmationButtonHead() {
@@ -121,8 +136,8 @@ public class PageElementsHome {
         return confirmationButtonOnFormRequest;
     }
 
-    public static void clickConfirmationButtonHeader() {
-        confirmationButtonHeader.click();
+    public static WebElement getRequestButtonHeader() {
+        return requestButtonHeader;
     }
 
 

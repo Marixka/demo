@@ -45,7 +45,7 @@ public class BaseClass {
     }
 
 
-    protected void FindElements(Object page) {
+    protected static void FindElements(Object page) {
         PageFactory.initElements(driver, page);
     }
     protected void click(WebElement el) {
