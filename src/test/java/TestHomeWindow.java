@@ -33,12 +33,12 @@ public class TestHomeWindow extends BaseClass {
 
 
     /*
-     * Проверка, что окно заказа доступно на главной странице ниже шапки
-     * окно статичное
-     * заявка отправляется
+     * Проверка, что окно заказа доступно
+     * в шапке на главной странице
+     * заявка на почту не отправляем
      */
     @Test
-    public void testRequestOnHeadFormSpecial() {
+    public void testRequestOnHeadWindowHome() {
 
 
         $(By.xpath(getButtonRequestOnHead())).click();
@@ -68,6 +68,7 @@ public class TestHomeWindow extends BaseClass {
     /*
      * Проверка, что на главной странице имеется две кнопки вызова замерщика
      * Проверяем все поля для каждого вызова
+     * Заказ не отправляем
      */
     @Test
     public void testRequestOnWindowHome() throws InterruptedException {
@@ -103,12 +104,12 @@ public class TestHomeWindow extends BaseClass {
     }
 
     /*
-     * Проверка, что окно заказа доступно
-     * в шапке на главной странице
-     * заявка на почту не отправляется
+     * Проверка, что окно заказа доступно на главной странице ниже шапки
+     * окно статичное
+     * заявка отправляется
      */
     @Test
-    public void testRequestOnHeadWindowHome() {
+    public void testRequestOnHeadFormSpecial () {
 
         $(By.xpath(getXpathRequestFieldNameOnFormWindows())).setValue(Veribles.getNameOne());
         $(By.xpath(getXpathRequestFieldTelephoneOnFormWindows())).setValue(Veribles.getTelephone());
